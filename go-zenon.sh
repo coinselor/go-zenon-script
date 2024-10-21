@@ -17,6 +17,19 @@ cat << 'EOF'
 \_| \_/\___|\__| \_/\_/ \___/|_|  |_|\_\  \___/|_|   \_|  |_/\___/|_| |_| |_|\___|_| |_|\__|\__,_|_| |_| |_|
 EOF
 
+# Check for apt-get
+if ! command -v apt-get >/dev/null 2>&1; then
+    echo "Error: This script requires apt-get, which is not available on this system."
+    echo "Please run this script on a Debian-based operating system."
+    exit 1
+fi
+
+# Check for systemctl
+if ! command -v systemctl >/dev/null 2>&1; then
+    echo "Error: systemctl is not available. This script requires systemd to manage services."
+    exit 1
+fi
+
 # Global variables
 BUILD_SOURCE=false
 BUILD_SOURCE_URL=""
@@ -289,6 +302,10 @@ install_grafana() {
 
 show_help() {
     echo "A script to automate the setup, management, and restoration of the Zenon Network."
+    echo
+    echo "Requirements:"
+    echo "  - Debian-based operating system (e.g., Debian, Ubuntu)"
+    echo "  - systemd init system"
     echo
     echo "Usage: $0 [OPTIONS]"
     echo
